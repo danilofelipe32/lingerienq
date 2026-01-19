@@ -37,6 +37,8 @@
                         'fade-in': 'fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'scale-in': 'scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'subtle-zoom': 'subtleZoom 15s ease-in-out infinite alternate',
+                        'explosion': 'explosion 2s ease-in-out infinite',
+                        'blob': 'blob 10s infinite', // Nova animação de fundo
                     },
                     keyframes: {
                         fadeIn: {
@@ -50,6 +52,20 @@
                         subtleZoom: {
                             '0%': { transform: 'scale(1)', opacity: '0.2' },
                             '100%': { transform: 'scale(1.15)', opacity: '0.3' },
+                        },
+                        explosion: {
+                            '0%, 100%': { transform: 'scale(1)', 'text-shadow': 'none', 'letter-spacing': 'normal' },
+                            '50%': { 
+                                transform: 'scale(1.1)', 
+                                'text-shadow': '0 0 20px rgba(255,255,255,0.8), 0 0 40px rgba(191, 90, 242, 0.4)', 
+                                'letter-spacing': '0.05em' 
+                            }
+                        },
+                        blob: { // Keyframes para o fundo dinâmico
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' }
                         }
                     }
                 }
@@ -66,7 +82,7 @@
         }
 
         .glass-nav {
-            background-color: rgba(28, 28, 30, 0.75);
+            background-color: rgba(28, 28, 30, 0.6); /* Mais transparência para ver o fundo */
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -107,17 +123,36 @@
     </style>
 </head>
 
-<body class="h-full bg-black text-white selection:bg-ios-blue selection:text-white">
+<body class="h-full bg-black text-white selection:bg-ios-blue selection:text-white relative">
     
-    <div id="app" class="h-full overflow-y-auto overflow-x-hidden relative">
+    <!-- Background Dinâmico Luxuoso & Misterioso -->
+    <div class="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <!-- Fundo base escuro -->
+        <div class="absolute inset-0 bg-black"></div>
+        
+        <!-- Orbe Roxo (Mistério/Sensualidade) -->
+        <div class="absolute top-[-10%] left-[-10%] w-[70vw] h-[70vw] bg-purple-900/20 rounded-full mix-blend-screen filter blur-[120px] animate-blob"></div>
+        
+        <!-- Orbe Vermelho/Bordeaux (Paixão) -->
+        <div class="absolute top-[-10%] right-[-10%] w-[70vw] h-[70vw] bg-rose-900/20 rounded-full mix-blend-screen filter blur-[120px] animate-blob" style="animation-delay: 2s"></div>
+        
+        <!-- Orbe Dourado (Luxo - Sutil) -->
+        <div class="absolute -bottom-32 left-[20%] w-[70vw] h-[70vw] bg-yellow-900/10 rounded-full mix-blend-screen filter blur-[120px] animate-blob" style="animation-delay: 4s"></div>
+        
+        <!-- Camada de ruído sutil para textura (opcional, aumenta o mistério) -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz4KPC9zdmc+')] opacity-20"></div>
+    </div>
+
+    <!-- Container principal com z-index para ficar acima do fundo -->
+    <div id="app" class="h-full overflow-y-auto overflow-x-hidden relative z-10">
         
         <!-- Navbar -->
         <header class="glass-nav sticky top-0 z-50 transition-all duration-300">
             <div class="max-w-[980px] mx-auto px-5 h-[52px] flex items-center justify-between">
-                <!-- Left: Logo -->
-                <h1 id="store-name" class="text-[17px] font-semibold tracking-tight text-white cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                    Belle Lingerie
-                </h1>
+                <!-- Left: Logo (Updated with Image) -->
+                <div class="cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <img src="https://i.imgur.com/4mPLGSA.png" alt="Belle Lingerie" class="h-8 md:h-10 w-auto object-contain">
+                </div>
 
                 <!-- Right: Bag -->
                 <button id="cart-btn" class="text-gray-400 hover:text-white transition-colors p-2 -mr-2 relative group">
@@ -132,36 +167,36 @@
         <!-- Hero Section -->
         <section class="pt-24 pb-16 px-6 text-center max-w-[980px] mx-auto">
             <div class="animate-fade-in">
-                <!-- Added animate-fade-in class to the text element -->
-                <p id="hero-collection-title" class="text-ios-purple font-semibold text-sm md:text-base mb-3 tracking-wide uppercase animate-fade-in">Nova Coleção</p>
-                <h2 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
+                <!-- ID added here for dynamic update -->
+                <p id="hero-collection-title" class="text-ios-purple font-bold text-xl md:text-2xl mb-4 tracking-widest uppercase animate-explosion">Nova Coleção</p>
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-tight drop-shadow-2xl">
                     Elegância.<br>Redefinida.
                 </h2>
-                <p class="text-xl md:text-2xl text-gray-400 font-normal max-w-xl mx-auto mb-10 leading-relaxed">
+                <p class="text-xl md:text-2xl text-gray-300 font-normal max-w-xl mx-auto mb-10 leading-relaxed drop-shadow-md">
                     Conforto absoluto e design sofisticado para todos os seus momentos.
                 </p>
                 
-                <button onclick="document.getElementById('products-section').scrollIntoView({behavior: 'smooth'})" class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors btn-ios text-base">
+                <button onclick="document.getElementById('products-section').scrollIntoView({behavior: 'smooth'})" class="bg-white text-black px-10 py-4 rounded-full font-bold hover:bg-gray-100 transition-colors btn-ios text-2xl shadow-[0_0_20px_rgba(255,255,255,0.4)]">
                     Ver Coleção
                 </button>
             </div>
             
             <!-- Hero Visual (Video) -->
-            <div class="mt-16 relative h-[400px] md:h-[500px] w-full rounded-3xl overflow-hidden bg-ios-card animate-fade-in shadow-2xl border border-white/5" style="animation-delay: 0.2s;">
-                <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+            <div class="mt-16 relative h-[400px] md:h-[500px] w-full rounded-3xl overflow-hidden bg-ios-card/50 animate-fade-in shadow-2xl border border-white/10 backdrop-blur-sm" style="animation-delay: 0.2s;">
+                <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-80">
                     <source src="https://i.imgur.com/hfHisyM.mp4" type="video/mp4">
                     Seu navegador não suporta a tag de vídeo.
                 </video>
-                <div class="absolute inset-0 bg-black/30"></div>
+                <div class="absolute inset-0 bg-black/20"></div>
                 
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-8xl md:text-9xl opacity-20 font-bold tracking-tighter text-white mix-blend-overlay select-none animate-subtle-zoom">BELLE</span>
+                    <span class="text-8xl md:text-9xl opacity-30 font-bold tracking-tighter text-white mix-blend-overlay select-none animate-subtle-zoom">BELLE</span>
                 </div>
             </div>
         </section>
 
         <!-- Sticky Filter Bar (Dynamic) -->
-        <div id="products-section" class="sticky top-[52px] z-40 bg-black/80 backdrop-blur-xl border-b border-white/5 py-4">
+        <div id="products-section" class="sticky top-[52px] z-40 bg-black/60 backdrop-blur-xl border-b border-white/5 py-4">
             <div class="max-w-[980px] mx-auto px-5">
                 <div id="categories" class="flex items-center gap-2 overflow-x-auto no-scrollbar tap-highlight-transparent">
                     <!-- Categories rendered via JS -->
@@ -171,7 +206,7 @@
 
         <!-- Promotions Section (Horizontal Scroll) -->
         <section id="promotions-section" class="max-w-[980px] mx-auto px-5 pt-10 hidden">
-            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2 drop-shadow-md">
                 <span class="text-ios-red">🔥</span> Ofertas Especiais
             </h3>
             <div id="promotions-list" class="flex gap-4 overflow-x-auto no-scrollbar pb-4 snap-x">
@@ -181,14 +216,14 @@
 
         <!-- Products Grid (Normal Catalog) -->
         <main class="max-w-[980px] mx-auto px-5 py-12 pb-32">
-            <h3 class="text-xl font-bold text-white mb-6 hidden" id="catalog-title">Catálogo</h3>
+            <h3 class="text-xl font-bold text-white mb-6 hidden drop-shadow-md" id="catalog-title">Catálogo</h3>
             <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Rendered by JS -->
             </div>
         </main>
 
         <!-- Footer -->
-        <footer class="bg-ios-card py-20 text-center border-t border-white/5">
+        <footer class="bg-ios-card/80 backdrop-blur-lg py-20 text-center border-t border-white/5">
             <div class="max-w-[980px] mx-auto px-5 flex flex-col items-center">
                 
                 <!-- Instagram Icon -->
@@ -205,7 +240,7 @@
                 
                 <div class="w-full max-w-sm border-t border-white/5 pt-8 flex justify-between items-center">
                     <div class="text-left">
-                        <p class="text-[11px] text-gray-600">Copyright © 2025 Belle Lingerie.</p>
+                        <p class="text-[11px] text-gray-600">Copyright © 2026 nq secrets.</p>
                         <p class="text-[11px] text-gray-700 mt-1">Todos os direitos reservados.</p>
                     </div>
                     
@@ -226,7 +261,7 @@
                 <div class="absolute inset-0 overflow-hidden">
                     <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
                         <div class="pointer-events-auto w-screen max-w-md transform transition ease-in-out duration-500 translate-x-full" id="modal-panel">
-                            <div class="flex h-full flex-col overflow-y-scroll bg-ios-card shadow-2xl">
+                            <div class="flex h-full flex-col overflow-y-scroll bg-ios-card/95 backdrop-blur-xl shadow-2xl">
                                 <div id="modal-content" class="h-full flex flex-col"></div>
                             </div>
                         </div>
@@ -246,9 +281,9 @@
         </div>
 
         <!-- Cart Sidebar -->
-        <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full md:w-[400px] bg-ios-card shadow-2xl z-50 transform translate-x-full transition-transform duration-500 border-l border-white/5">
+        <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full md:w-[400px] bg-ios-card/95 backdrop-blur-xl shadow-2xl z-50 transform translate-x-full transition-transform duration-500 border-l border-white/5">
             <div class="h-full flex flex-col">
-                <div class="px-6 py-5 border-b border-white/5 flex items-center justify-between bg-ios-card/80 backdrop-blur-md sticky top-0 z-10">
+                <div class="px-6 py-5 border-b border-white/5 flex items-center justify-between bg-white/5 backdrop-blur-md sticky top-0 z-10">
                     <h2 class="text-lg font-semibold text-white">Sacola</h2>
                     <button id="close-cart" class="text-gray-400 hover:text-white bg-white/10 rounded-full p-1.5 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -257,7 +292,7 @@
                 
                 <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
                 
-                <div class="p-6 border-t border-white/5 bg-ios-card/50 backdrop-blur-lg space-y-4">
+                <div class="p-6 border-t border-white/5 bg-black/20 backdrop-blur-lg space-y-4">
                     <!-- Coupon Input -->
                     <div class="flex gap-2">
                         <input type="text" id="coupon-input" placeholder="Cupom de desconto" class="flex-1 bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-ios-blue outline-none">
@@ -293,9 +328,9 @@
         </div>
 
         <!-- Admin Dashboard Modal -->
-        <div id="admin-dashboard-modal" class="fixed inset-0 z-[80] hidden bg-black">
+        <div id="admin-dashboard-modal" class="fixed inset-0 z-[80] hidden bg-black/95 backdrop-blur-xl">
             <div class="h-full flex flex-col">
-                <header class="border-b border-white/10 p-4 flex justify-between items-center bg-ios-card">
+                <header class="border-b border-white/10 p-4 flex justify-between items-center bg-ios-card/50">
                     <h2 class="text-xl font-bold text-white flex items-center gap-2">
                         <span class="text-ios-blue">🔒</span> Painel Administrativo
                     </h2>
@@ -304,7 +339,7 @@
                 
                 <div class="flex-1 overflow-hidden flex">
                     <!-- Sidebar -->
-                    <aside class="w-64 bg-ios-card border-r border-white/5 hidden md:block p-4 space-y-2">
+                    <aside class="w-64 bg-ios-card/50 border-r border-white/5 hidden md:block p-4 space-y-2">
                         <button onclick="switchAdminTab('products')" class="w-full text-left px-4 py-2 rounded-lg text-white hover:bg-white/5 transition-colors font-medium bg-white/10" id="tab-btn-products">Produtos</button>
                         <button onclick="switchAdminTab('categories')" class="w-full text-left px-4 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors font-medium" id="tab-btn-categories">Categorias</button>
                         <button onclick="switchAdminTab('coupons')" class="w-full text-left px-4 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors font-medium" id="tab-btn-coupons">Cupons</button>
@@ -324,7 +359,7 @@
                         <!-- Products Tab -->
                         <div id="admin-tab-products" class="space-y-6">
                             <div class="flex justify-between items-center">
-                                <h3 class="text-2xl font-bold">Produtos</h3>
+                                <h3 class="text-2xl font-bold text-white">Produtos</h3>
                                 <button onclick="openProductForm()" class="bg-ios-green text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-600">+ Novo Produto</button>
                             </div>
                             <div id="admin-products-list" class="grid grid-cols-1 gap-4"></div>
@@ -332,7 +367,7 @@
 
                         <!-- Categories Tab -->
                         <div id="admin-tab-categories" class="hidden space-y-6">
-                            <h3 class="text-2xl font-bold">Categorias</h3>
+                            <h3 class="text-2xl font-bold text-white">Categorias</h3>
                             <div class="flex gap-2">
                                 <input type="text" id="new-cat-input" placeholder="Nova Categoria (ID)" class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white flex-1">
                                 <input type="text" id="new-cat-label" placeholder="Nome Exibição" class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white flex-1">
@@ -343,7 +378,7 @@
 
                         <!-- Coupons Tab -->
                         <div id="admin-tab-coupons" class="hidden space-y-6">
-                            <h3 class="text-2xl font-bold">Cupons & Promoções</h3>
+                            <h3 class="text-2xl font-bold text-white">Cupons & Promoções</h3>
                             <div class="flex gap-2 flex-wrap">
                                 <input type="text" id="new-coupon-code" placeholder="Código (Ex: PROMO10)" class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white flex-1 min-w-[150px] uppercase">
                                 <input type="number" id="new-coupon-val" placeholder="Desconto (%)" class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white w-24">
@@ -354,7 +389,7 @@
 
                         <!-- Settings Tab (New) -->
                         <div id="admin-tab-settings" class="hidden space-y-6">
-                            <h3 class="text-2xl font-bold">Configurações da Loja</h3>
+                            <h3 class="text-2xl font-bold text-white">Configurações da Loja</h3>
                             <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
                                 <label class="block text-sm font-bold text-gray-400 mb-3">Nome da Coleção (Hero Section)</label>
                                 <div class="flex gap-3">
@@ -371,7 +406,7 @@
             <!-- Product Form Modal (Nested) -->
             <div id="admin-product-form" class="absolute inset-0 bg-ios-card z-50 hidden flex flex-col">
                 <div class="p-4 border-b border-white/10 flex justify-between items-center">
-                    <h3 class="text-lg font-bold">Editar/Criar Produto</h3>
+                    <h3 class="text-lg font-bold text-white">Editar/Criar Produto</h3>
                     <button onclick="closeProductForm()" class="text-gray-400 hover:text-white">Cancelar</button>
                 </div>
                 <div class="p-6 overflow-y-auto space-y-4 max-w-2xl mx-auto w-full">
@@ -432,12 +467,57 @@
     </div>
 
     <script>
-        // --- Data Definitions ---
-        let siteConfig = {
-            collectionTitle: "Nova Coleção"
+        // IndexedDB Wrapper
+        const dbName = "BelleLingerieDB";
+        const dbVersion = 1;
+        let db;
+
+        const IDB = {
+            async open() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(dbName, dbVersion);
+                    request.onerror = (e) => reject("DB Error: " + e.target.errorCode);
+                    request.onupgradeneeded = (e) => {
+                        const db = e.target.result;
+                        if (!db.objectStoreNames.contains('products')) db.createObjectStore('products', { keyPath: 'id' });
+                        if (!db.objectStoreNames.contains('categories')) db.createObjectStore('categories', { keyPath: 'id' });
+                        if (!db.objectStoreNames.contains('coupons')) db.createObjectStore('coupons', { keyPath: 'code' });
+                        if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'key' });
+                    };
+                    request.onsuccess = (e) => {
+                        db = e.target.result;
+                        resolve(db);
+                    };
+                });
+            },
+            async getAll(storeName) {
+                return new Promise((resolve) => {
+                    const tx = db.transaction(storeName, 'readonly');
+                    const store = tx.objectStore(storeName);
+                    const req = store.getAll();
+                    req.onsuccess = () => resolve(req.result);
+                });
+            },
+            async put(storeName, item) {
+                return new Promise((resolve) => {
+                    const tx = db.transaction(storeName, 'readwrite');
+                    const store = tx.objectStore(storeName);
+                    store.put(item);
+                    tx.oncomplete = () => resolve();
+                });
+            },
+            async delete(storeName, key) {
+                return new Promise((resolve) => {
+                    const tx = db.transaction(storeName, 'readwrite');
+                    const store = tx.objectStore(storeName);
+                    store.delete(key);
+                    tx.oncomplete = () => resolve();
+                });
+            }
         };
 
-        let products = [
+        // --- Initial Data (Seed) ---
+        const initialProducts = [
             { id: 1, name: "Conjunto Renda Noir", price: 189.90, promoPrice: 0, category: "conjuntos", colors: ["Preto", "Vinho"], sizes: ["P", "M", "G", "GG"], icon: "🖤", description: "Sofisticação em cada detalhe. Renda francesa premium.", visible: true, isPromotion: false },
             { id: 2, name: "Conjunto Midnight", price: 129.90, promoPrice: 0, category: "conjuntos", colors: ["Azul", "Preto"], sizes: ["P", "M", "G"], icon: "🌑", description: "Toque aveludado para conforto absoluto.", visible: true, isPromotion: false },
             { id: 3, name: "Sutiã Velvet", price: 99.90, promoPrice: 0, category: "sutias", colors: ["Bordeaux", "Preto"], sizes: ["P", "M", "G", "GG"], icon: "✨", description: "Acabamento em veludo. Modelagem perfeita.", visible: true, isPromotion: false },
@@ -450,7 +530,7 @@
             { id: 10, name: "Camisola Nightfall", price: 149.90, promoPrice: 0, category: "camisolas", colors: ["Violeta", "Preto"], sizes: ["P", "M", "G", "GG"], icon: "🌙", description: "Caimento fluido e decote profundo.", visible: true, isPromotion: false }
         ];
 
-        let categories = [
+        const initialCategories = [
             { id: 'all', label: 'Todos' },
             { id: 'conjuntos', label: 'Conjuntos' },
             { id: 'sutias', label: 'Sutiãs' },
@@ -459,6 +539,17 @@
             { id: 'camisolas', label: 'Camisolas' }
         ];
 
+        const initialCoupons = [
+            { code: "BELLE10", discount: 10 }
+        ];
+
+        // --- App State ---
+        let products = [];
+        let categories = [];
+        let coupons = [];
+        let siteConfig = { collectionTitle: "Nova Coleção" };
+
+        // Static Data
         const allColors = [
             { name: "Preto", hex: "#111111" },
             { name: "Branco", hex: "#FFFFFF" },
@@ -474,10 +565,6 @@
             { name: "Rosa", hex: "#ffc0cb" }
         ];
 
-        let coupons = [
-            { code: "BELLE10", discount: 10 }
-        ];
-
         let cart = [];
         let activeCategory = 'all';
         let checkoutData = { name: '', address: '', payment: '' };
@@ -486,6 +573,66 @@
         const whatsappNumber = "5584933004076";
 
         // --- Core Functions ---
+
+        async function initApp() {
+            try {
+                await IDB.open();
+                await loadData();
+            } catch (e) {
+                console.error("Failed to init DB", e);
+                // Fallback to memory arrays if DB fails
+                products = initialProducts;
+                categories = initialCategories;
+                coupons = initialCoupons;
+                renderUI();
+            }
+        }
+
+        async function loadData() {
+            // Load Categories
+            const cats = await IDB.getAll('categories');
+            if (cats.length === 0) {
+                for (const c of initialCategories) await IDB.put('categories', c);
+                categories = initialCategories;
+            } else {
+                categories = cats;
+            }
+
+            // Load Products
+            const prods = await IDB.getAll('products');
+            if (prods.length === 0) {
+                for (const p of initialProducts) await IDB.put('products', p);
+                products = initialProducts;
+            } else {
+                products = prods;
+            }
+
+            // Load Coupons
+            const cups = await IDB.getAll('coupons');
+            if (cups.length === 0) {
+                for (const c of initialCoupons) await IDB.put('coupons', c);
+                coupons = initialCoupons;
+            } else {
+                coupons = cups;
+            }
+
+            // Load Settings
+            const settings = await IDB.getAll('settings');
+            const config = settings.find(s => s.key === 'config');
+            if (config) {
+                siteConfig = config.value;
+            } else {
+                await IDB.put('settings', { key: 'config', value: siteConfig });
+            }
+
+            renderUI();
+        }
+
+        function renderUI() {
+            document.getElementById('hero-collection-title').textContent = siteConfig.collectionTitle;
+            renderCategories();
+            renderProducts();
+        }
 
         function renderCategories() {
             const container = document.getElementById('categories');
@@ -509,12 +656,11 @@
             const promoList = document.getElementById('promotions-list');
             const catalogTitle = document.getElementById('catalog-title');
 
-            // 1. Separate Promotions and Visible Products
             const visibleProducts = products.filter(p => p.visible !== false);
             const promos = visibleProducts.filter(p => p.isPromotion);
             const normalProducts = visibleProducts.filter(p => !p.isPromotion);
 
-            // 2. Render Promotions Section
+            // Render Promotions
             if (promos.length > 0) {
                 promoSection.classList.remove('hidden');
                 catalogTitle.classList.remove('hidden');
@@ -524,7 +670,6 @@
                         ? `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">`
                         : `<span class="text-5xl transition-transform duration-500 group-hover:scale-110">${product.icon}</span>`;
 
-                    // Logic to show promo price
                     const displayPrice = product.promoPrice > 0 ? product.promoPrice : product.price;
                     const originalPrice = product.price;
 
@@ -550,7 +695,7 @@
                 catalogTitle.classList.add('hidden');
             }
 
-            // 3. Filter Normal Products based on Category
+            // Render Grid
             const filtered = activeCategory === 'all' 
                 ? normalProducts 
                 : normalProducts.filter(p => p.category === activeCategory);
@@ -874,7 +1019,7 @@
             }
         }
 
-        function saveSettings() {
+        async function saveSettings() {
             const val = document.getElementById('setting-collection-title').value;
             if(!val.trim()) {
                 alert("O título da coleção não pode estar vazio!");
@@ -882,20 +1027,17 @@
             }
             
             siteConfig.collectionTitle = val;
+            await IDB.put('settings', { key: 'config', value: siteConfig });
+
             const titleEl = document.getElementById('hero-collection-title');
-            
-            // Atualiza o texto
             titleEl.textContent = val;
-            
-            // Reinicia a animação (Truque de Reflow)
             titleEl.classList.remove('animate-fade-in');
-            void titleEl.offsetWidth; // Força o navegador a recalcular o layout (Reflow)
+            void titleEl.offsetWidth; 
             titleEl.classList.add('animate-fade-in');
             
             alert("Configuração salva com sucesso!");
         }
 
-        // Admin Products
         function renderAdminProducts() {
             const list = document.getElementById('admin-products-list');
             list.innerHTML = products.map(p => `
@@ -913,41 +1055,36 @@
                             </p>
                         </div>
                     </div>
-                    
                     <div class="flex items-center gap-4">
-                        <!-- Visiblity Toggle -->
                         <div class="flex items-center">
                             <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" ${p.visible !== false ? 'checked' : ''} onchange="toggleProductVisibility(${p.id})" class="sr-only peer">
                                 <div class="w-9 h-5 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-ios-green"></div>
                             </label>
                         </div>
-
                         <button onclick="editProduct(${p.id})" class="text-ios-blue text-sm font-medium">Editar</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function toggleProductVisibility(id) {
+        async function toggleProductVisibility(id) {
             const idx = products.findIndex(p => p.id === id);
             if(idx !== -1) {
                 products[idx].visible = !products[idx].visible;
-                // Default handling if undefined
                 if(products[idx].visible === undefined) products[idx].visible = true; 
+                await IDB.put('products', products[idx]);
                 renderAdminProducts();
-                renderProducts(); // Update frontend
+                renderProducts();
             }
         }
 
         function openProductForm(isEdit = false, id = null) {
             document.getElementById('admin-product-form').classList.remove('hidden');
             
-            // Populate Category Select
             const catSelect = document.getElementById('prod-category');
             catSelect.innerHTML = categories.map(c => `<option value="${c.id}" class="text-black">${c.label}</option>`).join('');
 
-            // Populate Color Selection Grid
             const colorGrid = document.getElementById('color-selection-grid');
             colorGrid.innerHTML = allColors.map(c => `
                 <label class="cursor-pointer">
@@ -969,10 +1106,9 @@
                 document.getElementById('prod-icon').value = p.icon;
                 document.getElementById('prod-desc').value = p.description;
                 document.getElementById('prod-is-promo').checked = p.isPromotion || false; 
-                document.getElementById('prod-promo-price').value = p.promoPrice || ''; // Set promo price
+                document.getElementById('prod-promo-price').value = p.promoPrice || '';
                 document.getElementById('btn-delete-prod').classList.remove('hidden');
 
-                // Check colors
                 document.querySelectorAll('input[name="prod-colors"]').forEach(cb => {
                     if (p.colors.includes(cb.value)) cb.checked = true;
                 });
@@ -985,7 +1121,7 @@
                 document.getElementById('prod-icon').value = '✨';
                 document.getElementById('prod-desc').value = '';
                 document.getElementById('prod-is-promo').checked = false; 
-                document.getElementById('prod-promo-price').value = ''; // Reset promo price
+                document.getElementById('prod-promo-price').value = '';
                 document.getElementById('btn-delete-prod').classList.add('hidden');
                 document.querySelectorAll('input[name="prod-colors"]').forEach(cb => cb.checked = false);
             }
@@ -999,7 +1135,7 @@
             openProductForm(true, id);
         }
 
-        function saveProduct() {
+        async function saveProduct() {
             const id = document.getElementById('edit-prod-id').value;
             const name = document.getElementById('prod-name').value;
             const price = parseFloat(document.getElementById('prod-price').value);
@@ -1008,7 +1144,7 @@
             const icon = document.getElementById('prod-icon').value;
             const description = document.getElementById('prod-desc').value;
             const isPromotion = document.getElementById('prod-is-promo').checked; 
-            const promoPrice = isPromotion ? parseFloat(document.getElementById('prod-promo-price').value) : 0; // Get promo price
+            const promoPrice = isPromotion ? parseFloat(document.getElementById('prod-promo-price').value) : 0;
             
             const selectedColors = Array.from(document.querySelectorAll('input[name="prod-colors"]:checked')).map(cb => cb.value);
             
@@ -1022,20 +1158,23 @@
                 return;
             }
 
+            let productData;
+
             if (id) {
                 const idx = products.findIndex(p => p.id == id);
                 if (idx !== -1) {
                     const currentVisible = products[idx].visible;
-                    products[idx] = { ...products[idx], name, price, category, image, icon, description, colors: selectedColors, isPromotion, promoPrice, visible: currentVisible };
+                    productData = { ...products[idx], name, price, category, image, icon, description, colors: selectedColors, isPromotion, promoPrice, visible: currentVisible };
+                    products[idx] = productData;
                 }
             } else {
                 const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-                products.push({ 
+                productData = { 
                     id: newId, 
                     name, 
                     price, 
                     category, 
-                    image,
+                    image, 
                     icon, 
                     description, 
                     colors: selectedColors, 
@@ -1043,17 +1182,20 @@
                     visible: true,
                     isPromotion,
                     promoPrice
-                });
+                };
+                products.push(productData);
             }
             
+            await IDB.put('products', productData);
             closeProductForm();
             renderAdminProducts();
             renderProducts(); 
         }
 
-        function deleteProduct() {
-            const id = document.getElementById('edit-prod-id').value;
+        async function deleteProduct() {
+            const id = parseInt(document.getElementById('edit-prod-id').value);
             if(confirm("Tem certeza que deseja excluir?")) {
+                await IDB.delete('products', id);
                 products = products.filter(p => p.id != id);
                 closeProductForm();
                 renderAdminProducts();
@@ -1061,7 +1203,6 @@
             }
         }
 
-        // Admin Categories
         function renderAdminCategories() {
             const list = document.getElementById('admin-categories-list');
             list.innerHTML = categories.map(c => `
@@ -1072,11 +1213,13 @@
             `).join('');
         }
 
-        function addCategory() {
+        async function addCategory() {
             const id = document.getElementById('new-cat-input').value.toLowerCase().replace(/\s+/g, '-');
             const label = document.getElementById('new-cat-label').value;
             if(id && label) {
-                categories.push({ id, label });
+                const newCat = { id, label };
+                categories.push(newCat);
+                await IDB.put('categories', newCat);
                 renderAdminCategories();
                 renderCategories();
                 document.getElementById('new-cat-input').value = '';
@@ -1084,15 +1227,15 @@
             }
         }
 
-        function deleteCategory(id) {
-            if(confirm("Excluir categoria? Produtos nessa categoria ficarão invisíveis no filtro.")) {
+        async function deleteCategory(id) {
+            if(confirm("Excluir categoria?")) {
+                await IDB.delete('categories', id);
                 categories = categories.filter(c => c.id !== id);
                 renderAdminCategories();
                 renderCategories();
             }
         }
 
-        // Admin Coupons
         function renderAdminCoupons() {
             const list = document.getElementById('admin-coupons-list');
             list.innerHTML = coupons.map(c => `
@@ -1104,18 +1247,21 @@
             `).join('');
         }
 
-        function addCoupon() {
+        async function addCoupon() {
             const code = document.getElementById('new-coupon-code').value.toUpperCase();
             const val = parseFloat(document.getElementById('new-coupon-val').value);
             if(code && val) {
-                coupons.push({ code, discount: val });
+                const newCoupon = { code, discount: val };
+                coupons.push(newCoupon);
+                await IDB.put('coupons', newCoupon);
                 renderAdminCoupons();
                 document.getElementById('new-coupon-code').value = '';
                 document.getElementById('new-coupon-val').value = '';
             }
         }
 
-        function deleteCoupon(code) {
+        async function deleteCoupon(code) {
+            await IDB.delete('coupons', code);
             coupons = coupons.filter(c => c.code !== code);
             renderAdminCoupons();
         }
@@ -1268,10 +1414,8 @@
             closeCart();
         }
 
-        // Init
-        document.getElementById('hero-collection-title').textContent = siteConfig.collectionTitle;
-        renderCategories();
-        renderProducts();
+        // Init App with DB
+        initApp();
     </script>
 </body>
 </html>
