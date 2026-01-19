@@ -1,0 +1,1225 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Lingerie | Belle Lingerie</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Inter"', 'sans-serif'],
+                    },
+                    colors: {
+                        ios: {
+                            black: '#000000',
+                            card: '#1c1c1e',
+                            gray: '#8e8e93',
+                            blue: '#0a84ff',
+                            purple: '#bf5af2',
+                            red: '#ff453a',
+                            green: '#30d158',
+                            divider: '#38383a'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'scale-in': 'scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: 0, transform: 'translateY(10px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: 0, transform: 'scale(0.95)' },
+                            '100%': { opacity: 1, transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #f5f5f7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .glass-nav {
+            background-color: rgba(28, 28, 30, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tap-highlight-transparent {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-ios {
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .btn-ios:active {
+            transform: scale(0.96);
+            opacity: 0.8;
+        }
+        
+        /* Checkbox customizado para Admin */
+        .admin-checkbox:checked + div {
+            border-color: #0a84ff;
+            background-color: rgba(10, 132, 255, 0.2);
+        }
+
+        /* Toggle Switch Style */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #30d158;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #30d158;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-black text-white selection:bg-ios-blue selection:text-white">
+    
+    <div id="app" class="h-full overflow-y-auto overflow-x-hidden relative">
+        
+        <!-- Navbar -->
+        <header class="glass-nav sticky top-0 z-50 transition-all duration-300">
+            <div class="max-w-[980px] mx-auto px-5 h-[52px] flex items-center justify-between">
+                <!-- Left: Logo -->
+                <h1 id="store-name" class="text-[17px] font-semibold tracking-tight text-white cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    Belle Lingerie
+                </h1>
+
+                <!-- Right: Bag -->
+                <button id="cart-btn" class="text-gray-400 hover:text-white transition-colors p-2 -mr-2 relative group">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    <span id="cart-count" class="absolute top-1 right-1 bg-ios-blue text-white text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold hidden shadow-sm">0</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="pt-24 pb-16 px-6 text-center max-w-[980px] mx-auto">
+            <div class="animate-fade-in">
+                <p class="text-ios-purple font-semibold text-sm md:text-base mb-3 tracking-wide uppercase">Nova Coleção</p>
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
+                    Elegância.<br>Redefinida.
+                </h2>
+                <p class="text-xl md:text-2xl text-gray-400 font-normal max-w-xl mx-auto mb-10 leading-relaxed">
+                    Conforto absoluto e design sofisticado para todos os seus momentos.
+                </p>
+                
+                <button onclick="document.getElementById('products-section').scrollIntoView({behavior: 'smooth'})" class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors btn-ios text-base">
+                    Ver Coleção
+                </button>
+            </div>
+            
+            <!-- Hero Visual -->
+            <div class="mt-16 relative h-[400px] md:h-[500px] w-full rounded-3xl overflow-hidden bg-ios-card animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-black opacity-50"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-ios-purple opacity-20 blur-[100px] rounded-full"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-8xl md:text-9xl opacity-10 font-bold tracking-tighter text-white">BELLE</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sticky Filter Bar (Dynamic) -->
+        <div id="products-section" class="sticky top-[52px] z-40 bg-black/80 backdrop-blur-xl border-b border-white/5 py-4">
+            <div class="max-w-[980px] mx-auto px-5">
+                <div id="categories" class="flex items-center gap-2 overflow-x-auto no-scrollbar tap-highlight-transparent">
+                    <!-- Categories rendered via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Promotions Section (Horizontal Scroll) -->
+        <section id="promotions-section" class="max-w-[980px] mx-auto px-5 pt-10 hidden">
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <span class="text-ios-red">🔥</span> Ofertas Especiais
+            </h3>
+            <div id="promotions-list" class="flex gap-4 overflow-x-auto no-scrollbar pb-4 snap-x">
+                <!-- Rendered by JS -->
+            </div>
+        </section>
+
+        <!-- Products Grid (Normal Catalog) -->
+        <main class="max-w-[980px] mx-auto px-5 py-12 pb-32">
+            <h3 class="text-xl font-bold text-white mb-6 hidden" id="catalog-title">Catálogo</h3>
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Rendered by JS -->
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-ios-card py-20 text-center border-t border-white/5">
+            <div class="max-w-[980px] mx-auto px-5 flex flex-col items-center">
+                
+                <!-- Instagram Icon -->
+                <a href="https://instagram.com" target="_blank" class="group flex flex-col items-center gap-3 text-gray-500 hover:text-white transition-colors duration-300 mb-10">
+                    <div class="p-4 rounded-3xl bg-white/5 group-hover:bg-white/10 border border-white/5 group-hover:border-white/10 transition-all duration-300 scale-100 group-hover:scale-105 shadow-sm">
+                        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-medium tracking-wide uppercase text-gray-600 group-hover:text-gray-400 transition-colors">@bellelingerie</span>
+                </a>
+                
+                <div class="w-full max-w-sm border-t border-white/5 pt-8 flex justify-between items-center">
+                    <div class="text-left">
+                        <p class="text-[11px] text-gray-600">Copyright © 2024 Belle Lingerie.</p>
+                        <p class="text-[11px] text-gray-700 mt-1">Todos os direitos reservados.</p>
+                    </div>
+                    
+                    <!-- Admin Button (Lock Icon) -->
+                    <button onclick="openAdminLogin()" class="text-gray-700 hover:text-white transition-colors p-2" title="Área Administrativa">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Product Modal -->
+        <div id="product-modal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+            <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop"></div>
+            <div class="fixed inset-0 overflow-hidden">
+                <div class="absolute inset-0 overflow-hidden">
+                    <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
+                        <div class="pointer-events-auto w-screen max-w-md transform transition ease-in-out duration-500 translate-x-full" id="modal-panel">
+                            <div class="flex h-full flex-col overflow-y-scroll bg-ios-card shadow-2xl">
+                                <div id="modal-content" class="h-full flex flex-col"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Modal -->
+        <div id="checkout-modal" class="fixed inset-0 z-[60] hidden">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" id="checkout-overlay"></div>
+            <div class="relative h-full flex items-center justify-center p-4">
+                <div class="bg-ios-card w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden transform transition-all scale-95 opacity-0" id="checkout-panel">
+                    <div id="checkout-modal-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Sidebar -->
+        <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full md:w-[400px] bg-ios-card shadow-2xl z-50 transform translate-x-full transition-transform duration-500 border-l border-white/5">
+            <div class="h-full flex flex-col">
+                <div class="px-6 py-5 border-b border-white/5 flex items-center justify-between bg-ios-card/80 backdrop-blur-md sticky top-0 z-10">
+                    <h2 class="text-lg font-semibold text-white">Sacola</h2>
+                    <button id="close-cart" class="text-gray-400 hover:text-white bg-white/10 rounded-full p-1.5 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                
+                <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
+                
+                <div class="p-6 border-t border-white/5 bg-ios-card/50 backdrop-blur-lg space-y-4">
+                    <!-- Coupon Input -->
+                    <div class="flex gap-2">
+                        <input type="text" id="coupon-input" placeholder="Cupom de desconto" class="flex-1 bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-ios-blue outline-none">
+                        <button onclick="applyCoupon()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Aplicar</button>
+                    </div>
+                    <div id="coupon-message" class="text-xs hidden"></div>
+
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400 text-sm">Total Estimado</span>
+                        <div class="text-right">
+                             <div id="discount-display" class="text-xs text-ios-green hidden"></div>
+                             <span id="cart-total" class="text-xl font-bold text-white">R$ 0,00</span>
+                        </div>
+                    </div>
+                    <button id="checkout-btn" class="w-full bg-ios-blue text-white py-3.5 rounded-xl font-semibold text-sm hover:bg-blue-600 transition-colors btn-ios disabled:opacity-50 disabled:cursor-not-allowed">
+                        Finalizar no WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Login Modal -->
+        <div id="admin-login-modal" class="fixed inset-0 z-[70] hidden">
+            <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeAdminLogin()"></div>
+            <div class="relative h-full flex items-center justify-center p-4">
+                <div class="bg-ios-card w-full max-w-sm rounded-3xl p-8 shadow-2xl border border-white/10">
+                    <h3 class="text-xl font-bold text-white mb-2 text-center">Área Administrativa</h3>
+                    <p class="text-gray-500 text-sm mb-6 text-center">Digite a senha de acesso</p>
+                    <input type="password" id="admin-password-input" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white mb-4 focus:border-ios-blue outline-none text-center tracking-widest" placeholder="Senha">
+                    <button onclick="checkAdminPassword()" class="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors">Entrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard Modal -->
+        <div id="admin-dashboard-modal" class="fixed inset-0 z-[80] hidden bg-black">
+            <div class="h-full flex flex-col">
+                <header class="border-b border-white/10 p-4 flex justify-between items-center bg-ios-card">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-ios-blue">🔒</span> Painel Administrativo
+                    </h2>
+                    <button onclick="closeAdminDashboard()" class="text-gray-400 hover:text-white">Sair</button>
+                </header>
+                
+                <div class="flex-1 overflow-hidden flex">
+                    <!-- Sidebar -->
+                    <aside class="w-64 bg-ios-card border-r border-white/5 hidden md:block p-4 space-y-2">
+                        <button onclick="switchAdminTab('products')" class="w-full text-left px-4 py-2 rounded-lg text-white hover:bg-white/5 transition-colors font-medium bg-white/10" id="tab-btn-products">Produtos</button>
+                        <button onclick="switchAdminTab('categories')" class="w-full text-left px-4 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors font-medium" id="tab-btn-categories">Categorias</button>
+                        <button onclick="switchAdminTab('coupons')" class="w-full text-left px-4 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors font-medium" id="tab-btn-coupons">Cupons</button>
+                    </aside>
+                    
+                    <!-- Content -->
+                    <main class="flex-1 overflow-y-auto p-6 relative">
+                        <!-- Mobile Tabs -->
+                        <div class="md:hidden flex gap-2 mb-6 overflow-x-auto pb-2">
+                            <button onclick="switchAdminTab('products')" class="px-4 py-2 rounded-full bg-ios-blue text-white text-sm whitespace-nowrap">Produtos</button>
+                            <button onclick="switchAdminTab('categories')" class="px-4 py-2 rounded-full bg-white/10 text-white text-sm whitespace-nowrap">Categorias</button>
+                            <button onclick="switchAdminTab('coupons')" class="px-4 py-2 rounded-full bg-white/10 text-white text-sm whitespace-nowrap">Cupons</button>
+                        </div>
+
+                        <!-- Products Tab -->
+                        <div id="admin-tab-products" class="space-y-6">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-2xl font-bold">Produtos</h3>
+                                <button onclick="openProductForm()" class="bg-ios-green text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-600">+ Novo Produto</button>
+                            </div>
+                            <div id="admin-products-list" class="grid grid-cols-1 gap-4"></div>
+                        </div>
+
+                        <!-- Categories Tab -->
+                        <div id="admin-tab-categories" class="hidden space-y-6">
+                            <h3 class="text-2xl font-bold">Categorias</h3>
+                            <div class="flex gap-2">
+                                <input type="text" id="new-cat-input" placeholder="Nova Categoria (ID)" class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white flex-1">
+                                <input type="text" id="new-cat-label" placeholder="Nome Exibição" class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white flex-1">
+                                <button onclick="addCategory()" class="bg-ios-blue px-4 py-2 rounded-lg text-white font-bold">Adicionar</button>
+                            </div>
+                            <div id="admin-categories-list" class="space-y-2"></div>
+                        </div>
+
+                        <!-- Coupons Tab -->
+                        <div id="admin-tab-coupons" class="hidden space-y-6">
+                            <h3 class="text-2xl font-bold">Cupons & Promoções</h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <input type="text" id="new-coupon-code" placeholder="Código (Ex: PROMO10)" class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white flex-1 min-w-[150px] uppercase">
+                                <input type="number" id="new-coupon-val" placeholder="Desconto (%)" class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white w-24">
+                                <button onclick="addCoupon()" class="bg-ios-blue px-4 py-2 rounded-lg text-white font-bold">Criar Cupom</button>
+                            </div>
+                            <div id="admin-coupons-list" class="space-y-2"></div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+
+            <!-- Product Form Modal (Nested) -->
+            <div id="admin-product-form" class="absolute inset-0 bg-ios-card z-50 hidden flex flex-col">
+                <div class="p-4 border-b border-white/10 flex justify-between items-center">
+                    <h3 class="text-lg font-bold">Editar/Criar Produto</h3>
+                    <button onclick="closeProductForm()" class="text-gray-400 hover:text-white">Cancelar</button>
+                </div>
+                <div class="p-6 overflow-y-auto space-y-4 max-w-2xl mx-auto w-full">
+                    <input type="hidden" id="edit-prod-id">
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Nome</label>
+                        <input type="text" id="prod-name" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white">
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-1">
+                            <label class="block text-xs text-gray-500 mb-1">Preço Original (R$)</label>
+                            <input type="number" step="0.01" id="prod-price" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white">
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-xs text-gray-500 mb-1">Categoria</label>
+                            <select id="prod-category" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white"></select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Link da Imagem (Imgur)</label>
+                        <input type="text" id="prod-image" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white" placeholder="https://i.imgur.com/...">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Ícone (Emoji - Fallback)</label>
+                        <input type="text" id="prod-icon" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Descrição</label>
+                        <textarea id="prod-desc" rows="3" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white"></textarea>
+                    </div>
+
+                    <!-- Promotion Toggle & Price -->
+                    <div class="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="prod-is-promo" class="w-5 h-5 rounded border-gray-600 bg-black text-ios-blue focus:ring-ios-blue">
+                            <label for="prod-is-promo" class="text-sm font-bold text-white">Produto em Promoção</label>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Preço Promocional (R$)</label>
+                            <input type="number" step="0.01" id="prod-promo-price" class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white placeholder-gray-600" placeholder="Valor com desconto">
+                        </div>
+                    </div>
+
+                    <!-- Color Table -->
+                    <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                        <label class="block text-sm font-bold text-white mb-3">Tabela de Cores Disponíveis</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="color-selection-grid">
+                            <!-- JS renders colors here -->
+                        </div>
+                    </div>
+
+                    <button onclick="saveProduct()" class="w-full bg-ios-blue text-white font-bold py-4 rounded-xl mt-4">Salvar Produto</button>
+                    <button onclick="deleteProduct()" id="btn-delete-prod" class="w-full bg-ios-red/10 text-ios-red font-bold py-3 rounded-xl hidden">Excluir Produto</button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        // --- Data Definitions ---
+        let products = [
+            { id: 1, name: "Conjunto Renda Noir", price: 189.90, promoPrice: 0, category: "conjuntos", colors: ["Preto", "Vinho"], sizes: ["P", "M", "G", "GG"], icon: "🖤", description: "Sofisticação em cada detalhe. Renda francesa premium.", visible: true, isPromotion: false },
+            { id: 2, name: "Conjunto Midnight", price: 129.90, promoPrice: 0, category: "conjuntos", colors: ["Azul", "Preto"], sizes: ["P", "M", "G"], icon: "🌑", description: "Toque aveludado para conforto absoluto.", visible: true, isPromotion: false },
+            { id: 3, name: "Sutiã Velvet", price: 99.90, promoPrice: 0, category: "sutias", colors: ["Bordeaux", "Preto"], sizes: ["P", "M", "G", "GG"], icon: "✨", description: "Acabamento em veludo. Modelagem perfeita.", visible: true, isPromotion: false },
+            { id: 4, name: "Sutiã Invisible", price: 69.90, promoPrice: 0, category: "sutias", colors: ["Nude", "Preto"], sizes: ["P", "M", "G"], icon: "👁️", description: "Design minimalista. Invisível sob a roupa.", visible: true, isPromotion: false },
+            { id: 5, name: "Fio Dental Lace", price: 49.90, promoPrice: 0, category: "calcinhas", colors: ["Vermelho", "Preto"], sizes: ["P", "M", "G"], icon: "🌹", description: "Delicadeza e transparência estratégica.", visible: true, isPromotion: false },
+            { id: 6, name: "Cintura Alta Sculpt", price: 59.90, promoPrice: 0, category: "calcinhas", colors: ["Preto", "Cacau"], sizes: ["P", "M", "G", "GG"], icon: "💎", description: "Modelagem retrô chic que desenha a silhueta.", visible: true, isPromotion: false },
+            { id: 7, name: "Body Femme", price: 159.90, promoPrice: 0, category: "bodies", colors: ["Preto"], sizes: ["P", "M", "G"], icon: "🔥", description: "Estruturado com recortes modernos.", visible: true, isPromotion: false },
+            { id: 8, name: "Body Silk", price: 139.90, promoPrice: 0, category: "bodies", colors: ["Pérola", "Preto"], sizes: ["P", "M", "G", "GG"], icon: "🦢", description: "Toque de seda pura. Luxo e conforto.", visible: true, isPromotion: false },
+            { id: 9, name: "Robe Longo", price: 199.90, promoPrice: 0, category: "camisolas", colors: ["Preto", "Rubi"], sizes: ["P", "M", "G"], icon: "🍷", description: "Mangas amplas e fenda lateral.", visible: true, isPromotion: false },
+            { id: 10, name: "Camisola Nightfall", price: 149.90, promoPrice: 0, category: "camisolas", colors: ["Violeta", "Preto"], sizes: ["P", "M", "G", "GG"], icon: "🌙", description: "Caimento fluido e decote profundo.", visible: true, isPromotion: false }
+        ];
+
+        let categories = [
+            { id: 'all', label: 'Todos' },
+            { id: 'conjuntos', label: 'Conjuntos' },
+            { id: 'sutias', label: 'Sutiãs' },
+            { id: 'calcinhas', label: 'Calcinhas' },
+            { id: 'bodies', label: 'Bodies' },
+            { id: 'camisolas', label: 'Camisolas' }
+        ];
+
+        const allColors = [
+            { name: "Preto", hex: "#111111" },
+            { name: "Branco", hex: "#FFFFFF" },
+            { name: "Vermelho", hex: "#DC2626" },
+            { name: "Vinho", hex: "#4a0404" },
+            { name: "Azul", hex: "#191970" },
+            { name: "Nude", hex: "#d4a574" },
+            { name: "Bordeaux", hex: "#800020" },
+            { name: "Cacau", hex: "#3e2723" },
+            { name: "Pérola", hex: "#eae0c8" },
+            { name: "Rubi", hex: "#9b111e" },
+            { name: "Violeta", hex: "#2e003e" },
+            { name: "Rosa", hex: "#ffc0cb" }
+        ];
+
+        let coupons = [
+            { code: "BELLE10", discount: 10 }
+        ];
+
+        let cart = [];
+        let activeCategory = 'all';
+        let checkoutData = { name: '', address: '', payment: '' };
+        let checkoutStep = 0;
+        let appliedCoupon = null;
+        const whatsappNumber = "5584933004076";
+
+        // --- Core Functions ---
+
+        function renderCategories() {
+            const container = document.getElementById('categories');
+            container.innerHTML = categories.map(cat => `
+                <button class="category-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all whitespace-nowrap ${activeCategory === cat.id ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}" 
+                    onclick="setCategory('${cat.id}')">
+                    ${cat.label}
+                </button>
+            `).join('');
+        }
+
+        function setCategory(id) {
+            activeCategory = id;
+            renderCategories();
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const promoSection = document.getElementById('promotions-section');
+            const promoList = document.getElementById('promotions-list');
+            const catalogTitle = document.getElementById('catalog-title');
+
+            // 1. Separate Promotions and Visible Products
+            const visibleProducts = products.filter(p => p.visible !== false);
+            const promos = visibleProducts.filter(p => p.isPromotion);
+            const normalProducts = visibleProducts.filter(p => !p.isPromotion);
+
+            // 2. Render Promotions Section
+            if (promos.length > 0) {
+                promoSection.classList.remove('hidden');
+                catalogTitle.classList.remove('hidden');
+                
+                promoList.innerHTML = promos.map(product => {
+                    const imageContent = product.image 
+                        ? `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">`
+                        : `<span class="text-5xl transition-transform duration-500 group-hover:scale-110">${product.icon}</span>`;
+
+                    // Logic to show promo price
+                    const displayPrice = product.promoPrice > 0 ? product.promoPrice : product.price;
+                    const originalPrice = product.price;
+
+                    return `
+                        <div class="snap-center shrink-0 w-[240px] bg-ios-card rounded-[24px] overflow-hidden group cursor-pointer border border-ios-red/20 hover:border-ios-red/50 transition-all" onclick="openProductModal(${product.id})">
+                            <div class="h-[280px] relative bg-gradient-to-br from-[#2c2c2e] to-[#1c1c1e] flex items-center justify-center overflow-hidden">
+                                ${imageContent}
+                                <div class="absolute top-3 right-3 bg-ios-red text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">Promo</div>
+                                <div class="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10 flex justify-between items-center">
+                                    <span class="text-white font-bold text-sm">R$ ${displayPrice.toFixed(0)}</span>
+                                    <span class="text-xs text-gray-300 line-through">R$ ${originalPrice.toFixed(0)}</span>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-white font-bold text-sm leading-tight line-clamp-1">${product.name}</h3>
+                                <p class="text-gray-500 text-xs mt-1">Ver detalhes</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                promoSection.classList.add('hidden');
+                catalogTitle.classList.add('hidden');
+            }
+
+            // 3. Filter Normal Products based on Category
+            const filtered = activeCategory === 'all' 
+                ? normalProducts 
+                : normalProducts.filter(p => p.category === activeCategory);
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-20 text-center">
+                        <p class="text-gray-500 text-lg">Nenhum produto encontrado.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map((product, index) => {
+                const imageContent = product.image 
+                    ? `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">`
+                    : `<span class="text-6xl transition-transform duration-500 group-hover:scale-110">${product.icon}</span>`;
+
+                return `
+                <div class="bg-ios-card rounded-[24px] overflow-hidden group cursor-pointer animate-scale-in border border-white/5 hover:bg-[#2c2c2e] transition-colors" 
+                     style="animation-delay: ${index * 0.05}s"
+                     onclick="openProductModal(${product.id})">
+                    <div class="aspect-[4/5] bg-gradient-to-br from-[#2c2c2e] to-[#1c1c1e] relative flex items-center justify-center overflow-hidden">
+                        ${imageContent}
+                        <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                            <span class="text-xs font-semibold text-white">R$ ${product.price.toFixed(0)}</span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs text-ios-blue font-semibold uppercase tracking-wide mb-1">${getCategoryLabel(product.category)}</p>
+                        <h3 class="text-white font-semibold text-lg leading-tight mb-2">${product.name}</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2">${product.description}</p>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function getCategoryLabel(id) {
+            const cat = categories.find(c => c.id === id);
+            return cat ? cat.label : id;
+        }
+
+        function getColorHex(name) {
+            const c = allColors.find(ac => ac.name === name);
+            return c ? c.hex : '#333';
+        }
+
+        function openProductModal(id) {
+            const product = products.find(p => p.id === id);
+            const modal = document.getElementById('product-modal');
+            const backdrop = document.getElementById('modal-backdrop');
+            const panel = document.getElementById('modal-panel');
+            const content = document.getElementById('modal-content');
+
+            const modalImageContent = product.image
+                ? `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover animate-scale-in">`
+                : `<span class="text-9xl drop-shadow-2xl animate-scale-in">${product.icon}</span>`;
+
+            // Calculate display price
+            const displayPrice = (product.isPromotion && product.promoPrice > 0) ? product.promoPrice : product.price;
+            const priceHtml = (product.isPromotion && product.promoPrice > 0)
+                ? `<p class="text-xl text-ios-red font-bold">R$ ${displayPrice.toFixed(2).replace('.', ',')} <span class="text-base text-gray-500 font-normal line-through ml-2">R$ ${product.price.toFixed(2).replace('.', ',')}</span></p>`
+                : `<p class="text-xl text-ios-gray">R$ ${product.price.toFixed(2).replace('.', ',')}</p>`;
+
+            content.innerHTML = `
+                <div class="relative h-[40vh] bg-gradient-to-b from-[#2c2c2e] to-ios-card flex items-center justify-center shrink-0">
+                    <button onclick="closeProductModal()" class="absolute top-4 left-4 bg-black/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-black/40 transition-colors z-10">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                    ${modalImageContent}
+                </div>
+                
+                <div class="p-8 flex flex-col flex-1">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-start">
+                            <h2 class="text-3xl font-bold text-white mb-2 max-w-[80%]">${product.name}</h2>
+                            ${product.isPromotion ? '<span class="bg-ios-red text-white text-xs font-bold px-2 py-1 rounded">PROMO</span>' : ''}
+                        </div>
+                        ${priceHtml}
+                    </div>
+                    
+                    <div class="space-y-8 flex-1">
+                        <div>
+                            <label class="text-sm font-medium text-gray-400 block mb-3">Cor</label>
+                            <div class="flex gap-3 flex-wrap">
+                                ${product.colors.map((colorName, i) => `
+                                    <button class="w-10 h-10 rounded-full border-2 transition-all color-btn ${i === 0 ? 'border-ios-blue scale-110' : 'border-transparent hover:border-gray-600'}"
+                                        style="background-color: ${getColorHex(colorName)}"
+                                        data-color="${colorName}"
+                                        title="${colorName}"
+                                        onclick="selectColor(this)">
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-gray-400 block mb-3">Tamanho</label>
+                            <div class="flex gap-3">
+                                ${product.sizes.map((size, i) => `
+                                    <button class="w-12 h-12 rounded-full bg-[#2c2c2e] text-white font-medium text-sm transition-all size-btn hover:bg-[#3a3a3c] ${i === 0 ? 'ring-2 ring-ios-blue bg-[#3a3a3c]' : ''} selected"
+                                        data-size="${size}"
+                                        onclick="selectSize(this)">
+                                        ${size}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="bg-[#2c2c2e] p-4 rounded-xl">
+                             <p class="text-sm text-gray-400 leading-relaxed">${product.description}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-white/5">
+                        <button onclick="addToCart(${product.id})" class="w-full bg-ios-blue text-white py-4 rounded-xl font-semibold text-lg btn-ios hover:bg-blue-600">
+                            Adicionar à Sacola
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('translate-x-full');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.selectColor = function(btn) {
+            btn.parentElement.querySelectorAll('.color-btn').forEach(b => {
+                b.classList.remove('border-ios-blue', 'scale-110');
+                b.classList.add('border-transparent');
+            });
+            btn.classList.remove('border-transparent');
+            btn.classList.add('border-ios-blue', 'scale-110');
+            btn.classList.add('selected');
+        }
+
+        window.selectSize = function(btn) {
+            btn.parentElement.querySelectorAll('.size-btn').forEach(b => {
+                b.classList.remove('ring-2', 'ring-ios-blue');
+            });
+            btn.classList.add('ring-2', 'ring-ios-blue');
+            btn.classList.add('selected');
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            const backdrop = document.getElementById('modal-backdrop');
+            const panel = document.getElementById('modal-panel');
+
+            backdrop.classList.add('opacity-0');
+            panel.classList.add('translate-x-full');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 500);
+        }
+
+        // --- Cart Logic ---
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const modalContent = document.getElementById('modal-content');
+            
+            let colorBtn = modalContent.querySelector('.color-btn.selected') || modalContent.querySelector('.color-btn');
+            let sizeBtn = modalContent.querySelector('.size-btn.selected') || modalContent.querySelector('.size-btn');
+            
+            const color = colorBtn.dataset.color;
+            const size = sizeBtn.dataset.size;
+
+            const existing = cart.find(i => i.id === id && i.color === color && i.size === size);
+            if(existing) existing.quantity++;
+            else cart.push({...product, color, size, quantity: 1});
+
+            updateCartUI();
+            closeProductModal();
+            openCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('coupon-input').value.toUpperCase().trim();
+            const msg = document.getElementById('coupon-message');
+            const coupon = coupons.find(c => c.code === code);
+
+            if(coupon) {
+                appliedCoupon = coupon;
+                msg.textContent = `Cupom ${coupon.code} aplicado: ${coupon.discount}% OFF`;
+                msg.className = "text-xs text-ios-green mt-1 block";
+            } else {
+                appliedCoupon = null;
+                msg.textContent = "Cupom inválido";
+                msg.className = "text-xs text-ios-red mt-1 block";
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const countBadge = document.getElementById('cart-count');
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const discountDisplay = document.getElementById('discount-display');
+
+            const count = cart.reduce((a, b) => a + b.quantity, 0);
+            
+            // Calculate subtotal considering promo prices
+            let subtotal = cart.reduce((a, b) => {
+                const price = (b.isPromotion && b.promoPrice > 0) ? b.promoPrice : b.price;
+                return a + (price * b.quantity);
+            }, 0);
+            
+            let total = subtotal;
+
+            if(appliedCoupon) {
+                const discountAmount = (subtotal * appliedCoupon.discount) / 100;
+                total = subtotal - discountAmount;
+                discountDisplay.textContent = `-${appliedCoupon.discount}% (R$ -${discountAmount.toFixed(2)})`;
+                discountDisplay.classList.remove('hidden');
+            } else {
+                discountDisplay.classList.add('hidden');
+            }
+
+            countBadge.textContent = count;
+            countBadge.classList.toggle('hidden', count === 0);
+
+            if(cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-center py-10">
+                        <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-4 text-2xl">🛍️</div>
+                        <p class="text-white font-medium">Sua sacola está vazia</p>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+            } else {
+                container.innerHTML = cart.map((item, idx) => {
+                    const price = (item.isPromotion && item.promoPrice > 0) ? item.promoPrice : item.price;
+                    return `
+                        <div class="flex gap-4">
+                            <div class="w-16 h-20 bg-[#2c2c2e] rounded-lg flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+                                 ${item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : item.icon}
+                            </div>
+                            <div class="flex-1 py-1">
+                                <div class="flex justify-between items-start">
+                                    <h4 class="text-white font-medium text-sm">${item.name}</h4>
+                                    <button onclick="removeFromCart(${idx})" class="text-gray-500 hover:text-red-500">×</button>
+                                </div>
+                                <p class="text-gray-500 text-xs mt-1">${item.size} • ${item.color}</p>
+                                <div class="flex justify-between items-end mt-2">
+                                    <p class="text-white text-sm">R$ ${price.toFixed(2).replace('.', ',')}</p>
+                                    <div class="text-gray-400 text-xs bg-white/5 px-2 py-1 rounded">x${item.quantity}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                checkoutBtn.disabled = false;
+            }
+
+            totalEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        // Cart Drawer
+        function openCart() {
+            document.getElementById('cart-sidebar').classList.remove('translate-x-full');
+        }
+        function closeCart() {
+            document.getElementById('cart-sidebar').classList.add('translate-x-full');
+        }
+
+        document.getElementById('cart-btn').addEventListener('click', openCart);
+        document.getElementById('close-cart').addEventListener('click', closeCart);
+
+        // --- Admin Logic ---
+
+        function openAdminLogin() {
+            document.getElementById('admin-login-modal').classList.remove('hidden');
+        }
+        function closeAdminLogin() {
+            document.getElementById('admin-login-modal').classList.add('hidden');
+            document.getElementById('admin-password-input').value = '';
+        }
+
+        function checkAdminPassword() {
+            const pwd = document.getElementById('admin-password-input').value;
+            if (pwd === "NEILAQUEIROZ") {
+                closeAdminLogin();
+                openAdminDashboard();
+            } else {
+                alert("Senha incorreta");
+            }
+        }
+
+        function openAdminDashboard() {
+            document.getElementById('admin-dashboard-modal').classList.remove('hidden');
+            switchAdminTab('products');
+            renderAdminProducts();
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('admin-dashboard-modal').classList.add('hidden');
+        }
+
+        function switchAdminTab(tab) {
+            ['products', 'categories', 'coupons'].forEach(t => {
+                document.getElementById(`admin-tab-${t}`).classList.add('hidden');
+            });
+            document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
+            if(tab === 'categories') renderAdminCategories();
+            if(tab === 'coupons') renderAdminCoupons();
+        }
+
+        // Admin Products
+        function renderAdminProducts() {
+            const list = document.getElementById('admin-products-list');
+            list.innerHTML = products.map(p => `
+                <div class="bg-white/5 p-4 rounded-xl flex justify-between items-center border border-white/5">
+                    <div class="flex gap-4 items-center flex-1">
+                        <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center text-2xl overflow-hidden shrink-0">
+                             ${p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : p.icon}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white ${!p.visible ? 'opacity-50' : ''}">${p.name}</h4>
+                            <p class="text-xs text-gray-400">
+                                R$ ${p.price.toFixed(2)} • ${p.category}
+                                ${p.isPromotion ? `<span class="text-ios-red ml-1 font-bold">PROMO (R$ ${p.promoPrice})</span>` : ''}
+                                ${!p.visible ? '<span class="text-gray-500 ml-1">(Oculto)</span>' : ''}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <!-- Visiblity Toggle -->
+                        <div class="flex items-center">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" ${p.visible !== false ? 'checked' : ''} onchange="toggleProductVisibility(${p.id})" class="sr-only peer">
+                                <div class="w-9 h-5 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-ios-green"></div>
+                            </label>
+                        </div>
+
+                        <button onclick="editProduct(${p.id})" class="text-ios-blue text-sm font-medium">Editar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleProductVisibility(id) {
+            const idx = products.findIndex(p => p.id === id);
+            if(idx !== -1) {
+                products[idx].visible = !products[idx].visible;
+                // Default handling if undefined
+                if(products[idx].visible === undefined) products[idx].visible = true; 
+                renderAdminProducts();
+                renderProducts(); // Update frontend
+            }
+        }
+
+        function openProductForm(isEdit = false, id = null) {
+            document.getElementById('admin-product-form').classList.remove('hidden');
+            
+            // Populate Category Select
+            const catSelect = document.getElementById('prod-category');
+            catSelect.innerHTML = categories.map(c => `<option value="${c.id}" class="text-black">${c.label}</option>`).join('');
+
+            // Populate Color Selection Grid
+            const colorGrid = document.getElementById('color-selection-grid');
+            colorGrid.innerHTML = allColors.map(c => `
+                <label class="cursor-pointer">
+                    <input type="checkbox" name="prod-colors" value="${c.name}" class="hidden admin-checkbox">
+                    <div class="border border-white/10 rounded-lg p-2 flex items-center gap-2 hover:bg-white/5 transition-colors">
+                        <div class="w-4 h-4 rounded-full border border-gray-600" style="background-color: ${c.hex}"></div>
+                        <span class="text-xs text-gray-300">${c.name}</span>
+                    </div>
+                </label>
+            `).join('');
+
+            if (isEdit && id) {
+                const p = products.find(prod => prod.id === id);
+                document.getElementById('edit-prod-id').value = p.id;
+                document.getElementById('prod-name').value = p.name;
+                document.getElementById('prod-price').value = p.price;
+                document.getElementById('prod-category').value = p.category;
+                document.getElementById('prod-image').value = p.image || ''; 
+                document.getElementById('prod-icon').value = p.icon;
+                document.getElementById('prod-desc').value = p.description;
+                document.getElementById('prod-is-promo').checked = p.isPromotion || false; 
+                document.getElementById('prod-promo-price').value = p.promoPrice || ''; // Set promo price
+                document.getElementById('btn-delete-prod').classList.remove('hidden');
+
+                // Check colors
+                document.querySelectorAll('input[name="prod-colors"]').forEach(cb => {
+                    if (p.colors.includes(cb.value)) cb.checked = true;
+                });
+            } else {
+                document.getElementById('edit-prod-id').value = '';
+                document.getElementById('prod-name').value = '';
+                document.getElementById('prod-price').value = '';
+                document.getElementById('prod-category').value = categories[0].id;
+                document.getElementById('prod-image').value = ''; 
+                document.getElementById('prod-icon').value = '✨';
+                document.getElementById('prod-desc').value = '';
+                document.getElementById('prod-is-promo').checked = false; 
+                document.getElementById('prod-promo-price').value = ''; // Reset promo price
+                document.getElementById('btn-delete-prod').classList.add('hidden');
+                document.querySelectorAll('input[name="prod-colors"]').forEach(cb => cb.checked = false);
+            }
+        }
+
+        function closeProductForm() {
+            document.getElementById('admin-product-form').classList.add('hidden');
+        }
+
+        function editProduct(id) {
+            openProductForm(true, id);
+        }
+
+        function saveProduct() {
+            const id = document.getElementById('edit-prod-id').value;
+            const name = document.getElementById('prod-name').value;
+            const price = parseFloat(document.getElementById('prod-price').value);
+            const category = document.getElementById('prod-category').value;
+            const image = document.getElementById('prod-image').value; 
+            const icon = document.getElementById('prod-icon').value;
+            const description = document.getElementById('prod-desc').value;
+            const isPromotion = document.getElementById('prod-is-promo').checked; 
+            const promoPrice = isPromotion ? parseFloat(document.getElementById('prod-promo-price').value) : 0; // Get promo price
+            
+            const selectedColors = Array.from(document.querySelectorAll('input[name="prod-colors"]:checked')).map(cb => cb.value);
+            
+            if(!name || !price || selectedColors.length === 0) {
+                alert("Preencha nome, preço e selecione pelo menos uma cor.");
+                return;
+            }
+
+            if(isPromotion && (!promoPrice || isNaN(promoPrice))) {
+                alert("Para produtos em promoção, informe o preço promocional.");
+                return;
+            }
+
+            if (id) {
+                const idx = products.findIndex(p => p.id == id);
+                if (idx !== -1) {
+                    const currentVisible = products[idx].visible;
+                    products[idx] = { ...products[idx], name, price, category, image, icon, description, colors: selectedColors, isPromotion, promoPrice, visible: currentVisible };
+                }
+            } else {
+                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+                products.push({ 
+                    id: newId, 
+                    name, 
+                    price, 
+                    category, 
+                    image,
+                    icon, 
+                    description, 
+                    colors: selectedColors, 
+                    sizes: ["P", "M", "G"],
+                    visible: true,
+                    isPromotion,
+                    promoPrice
+                });
+            }
+            
+            closeProductForm();
+            renderAdminProducts();
+            renderProducts(); 
+        }
+
+        function deleteProduct() {
+            const id = document.getElementById('edit-prod-id').value;
+            if(confirm("Tem certeza que deseja excluir?")) {
+                products = products.filter(p => p.id != id);
+                closeProductForm();
+                renderAdminProducts();
+                renderProducts();
+            }
+        }
+
+        // Admin Categories
+        function renderAdminCategories() {
+            const list = document.getElementById('admin-categories-list');
+            list.innerHTML = categories.map(c => `
+                <div class="bg-white/5 p-3 rounded-lg flex justify-between items-center">
+                    <span class="text-white">${c.label} (${c.id})</span>
+                    ${c.id !== 'all' ? `<button onclick="deleteCategory('${c.id}')" class="text-red-500 text-xs">Excluir</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function addCategory() {
+            const id = document.getElementById('new-cat-input').value.toLowerCase().replace(/\s+/g, '-');
+            const label = document.getElementById('new-cat-label').value;
+            if(id && label) {
+                categories.push({ id, label });
+                renderAdminCategories();
+                renderCategories();
+                document.getElementById('new-cat-input').value = '';
+                document.getElementById('new-cat-label').value = '';
+            }
+        }
+
+        function deleteCategory(id) {
+            if(confirm("Excluir categoria? Produtos nessa categoria ficarão invisíveis no filtro.")) {
+                categories = categories.filter(c => c.id !== id);
+                renderAdminCategories();
+                renderCategories();
+            }
+        }
+
+        // Admin Coupons
+        function renderAdminCoupons() {
+            const list = document.getElementById('admin-coupons-list');
+            list.innerHTML = coupons.map(c => `
+                <div class="bg-white/5 p-3 rounded-lg flex justify-between items-center">
+                    <span class="text-white font-mono">${c.code}</span>
+                    <span class="text-ios-green">${c.discount}% OFF</span>
+                    <button onclick="deleteCoupon('${c.code}')" class="text-red-500 text-xs">Excluir</button>
+                </div>
+            `).join('');
+        }
+
+        function addCoupon() {
+            const code = document.getElementById('new-coupon-code').value.toUpperCase();
+            const val = parseFloat(document.getElementById('new-coupon-val').value);
+            if(code && val) {
+                coupons.push({ code, discount: val });
+                renderAdminCoupons();
+                document.getElementById('new-coupon-code').value = '';
+                document.getElementById('new-coupon-val').value = '';
+            }
+        }
+
+        function deleteCoupon(code) {
+            coupons = coupons.filter(c => c.code !== code);
+            renderAdminCoupons();
+        }
+
+        // --- Checkout Flow ---
+        function checkout() {
+            if(cart.length === 0) return;
+            checkoutStep = 0;
+            checkoutData = { name: '', address: '', payment: '' };
+            renderCheckoutModal();
+        }
+
+        document.getElementById('checkout-btn').addEventListener('click', checkout);
+
+        function renderCheckoutModal() {
+            const modal = document.getElementById('checkout-modal');
+            const panel = document.getElementById('checkout-panel');
+            const content = document.getElementById('checkout-modal-content');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                panel.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+
+            const inputClass = "w-full bg-[#2c2c2e] text-white px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-ios-blue transition-all placeholder-gray-500 text-sm";
+            const btnClass = "flex-1 py-3 text-sm font-medium text-gray-400 hover:text-white transition-colors";
+            const btnPrimary = "flex-1 py-3 bg-ios-blue text-white text-sm font-medium rounded-xl hover:bg-blue-600 transition-colors";
+
+            if(checkoutStep === 0) {
+                content.innerHTML = `
+                    <div class="p-6">
+                        <div class="text-center mb-6">
+                            <h3 class="text-lg font-bold text-white">Identificação</h3>
+                            <p class="text-gray-500 text-xs mt-1">Passo 1 de 3</p>
+                        </div>
+                        <form onsubmit="nextCheckoutStep(event, 'name')">
+                            <label class="block text-xs text-gray-400 mb-2 ml-1">Nome Completo</label>
+                            <input type="text" name="name" required class="${inputClass}" value="${checkoutData.name}" placeholder="Seu nome" autofocus>
+                            <div class="flex gap-3 mt-6">
+                                <button type="button" onclick="closeCheckoutModal()" class="${btnClass}">Cancelar</button>
+                                <button type="submit" class="${btnPrimary}">Continuar</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+            } else if(checkoutStep === 1) {
+                content.innerHTML = `
+                    <div class="p-6">
+                        <div class="text-center mb-6">
+                            <h3 class="text-lg font-bold text-white">Entrega</h3>
+                            <p class="text-gray-500 text-xs mt-1">Passo 2 de 3</p>
+                        </div>
+                        <form onsubmit="nextCheckoutStep(event, 'address')">
+                            <label class="block text-xs text-gray-400 mb-2 ml-1">Endereço</label>
+                            <textarea name="address" required class="${inputClass} resize-none" rows="3" placeholder="Endereço completo">${checkoutData.address}</textarea>
+                            <div class="flex gap-3 mt-6">
+                                <button type="button" onclick="prevCheckoutStep()" class="${btnClass}">Voltar</button>
+                                <button type="submit" class="${btnPrimary}">Continuar</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+            } else if(checkoutStep === 2) {
+                content.innerHTML = `
+                    <div class="p-6">
+                        <div class="text-center mb-6">
+                            <h3 class="text-lg font-bold text-white">Pagamento</h3>
+                            <p class="text-gray-500 text-xs mt-1">Passo 3 de 3</p>
+                        </div>
+                        <form onsubmit="nextCheckoutStep(event, 'payment')">
+                            <div class="space-y-3">
+                                <label class="flex items-center p-3 rounded-xl bg-[#2c2c2e] border border-transparent hover:border-gray-600 cursor-pointer">
+                                    <input type="radio" name="payment" value="PIX" class="text-ios-blue focus:ring-ios-blue bg-black border-gray-600" required>
+                                    <span class="ml-3 text-sm text-white flex-1">PIX</span>
+                                    <span class="text-[10px] text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">-5% OFF</span>
+                                </label>
+                                <label class="flex items-center p-3 rounded-xl bg-[#2c2c2e] border border-transparent hover:border-gray-600 cursor-pointer">
+                                    <input type="radio" name="payment" value="Cartão" class="text-ios-blue focus:ring-ios-blue bg-black border-gray-600">
+                                    <span class="ml-3 text-sm text-white">Cartão de Crédito</span>
+                                </label>
+                            </div>
+                            <div class="flex gap-3 mt-6">
+                                <button type="button" onclick="prevCheckoutStep()" class="${btnClass}">Voltar</button>
+                                <button type="submit" class="${btnPrimary}">Finalizar Pedido</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+            }
+        }
+
+        function nextCheckoutStep(e, field) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            checkoutData[field] = formData.get(field);
+            
+            if(checkoutStep < 2) {
+                checkoutStep++;
+                renderCheckoutModal();
+            } else {
+                sendToWhatsApp();
+            }
+        }
+
+        function prevCheckoutStep() {
+            checkoutStep--;
+            renderCheckoutModal();
+        }
+
+        function closeCheckoutModal() {
+            const modal = document.getElementById('checkout-modal');
+            const panel = document.getElementById('checkout-panel');
+            panel.classList.remove('scale-100', 'opacity-100');
+            panel.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+        }
+
+        function sendToWhatsApp() {
+            let msg = `*PEDIDO BELLE LINGERIE*\n\n`;
+            msg += `👤 *Cliente:* ${checkoutData.name}\n`;
+            msg += `📍 *Endereço:* ${checkoutData.address}\n`;
+            msg += `💳 *Pagamento:* ${checkoutData.payment}\n\n`;
+            msg += `🛒 *ITENS:*\n`;
+            
+            cart.forEach(i => {
+                msg += `- ${i.quantity}x ${i.name} (${i.size}, ${i.color})\n`;
+            });
+            
+            // Re-calculate logic
+            let subtotal = cart.reduce((a, b) => {
+                const price = (b.isPromotion && b.promoPrice > 0) ? b.promoPrice : b.price;
+                return a + (price * b.quantity);
+            }, 0);
+            let total = subtotal;
+
+            if(appliedCoupon) {
+                 const discount = (subtotal * appliedCoupon.discount) / 100;
+                 total = subtotal - discount;
+                 msg += `\n🏷️ *Cupom:* ${appliedCoupon.code} (-${appliedCoupon.discount}%)`;
+            }
+
+            msg += `\n💰 *Total:* R$ ${total.toFixed(2).replace('.', ',')}`;
+
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            
+            cart = [];
+            appliedCoupon = null;
+            updateCartUI();
+            closeCheckoutModal();
+            closeCart();
+        }
+
+        // Init
+        renderCategories();
+        renderProducts();
+    </script>
+</body>
+</html>
