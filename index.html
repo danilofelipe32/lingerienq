@@ -36,6 +36,7 @@
                     animation: {
                         'fade-in': 'fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'scale-in': 'scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'subtle-zoom': 'subtleZoom 15s ease-in-out infinite alternate',
                     },
                     keyframes: {
                         fadeIn: {
@@ -45,6 +46,10 @@
                         scaleIn: {
                             '0%': { opacity: 0, transform: 'scale(0.95)' },
                             '100%': { opacity: 1, transform: 'scale(1)' },
+                        },
+                        subtleZoom: {
+                            '0%': { transform: 'scale(1)', opacity: '0.2' },
+                            '100%': { transform: 'scale(1.15)', opacity: '0.3' },
                         }
                     }
                 }
@@ -87,13 +92,11 @@
             opacity: 0.8;
         }
         
-        /* Checkbox customizado para Admin */
         .admin-checkbox:checked + div {
             border-color: #0a84ff;
             background-color: rgba(10, 132, 255, 0.2);
         }
 
-        /* Toggle Switch Style */
         .toggle-checkbox:checked {
             right: 0;
             border-color: #30d158;
@@ -129,7 +132,8 @@
         <!-- Hero Section -->
         <section class="pt-24 pb-16 px-6 text-center max-w-[980px] mx-auto">
             <div class="animate-fade-in">
-                <p class="text-ios-purple font-semibold text-sm md:text-base mb-3 tracking-wide uppercase">Nova Coleção</p>
+                <!-- Added animate-fade-in class to the text element -->
+                <p id="hero-collection-title" class="text-ios-purple font-semibold text-sm md:text-base mb-3 tracking-wide uppercase animate-fade-in">Nova Coleção</p>
                 <h2 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
                     Elegância.<br>Redefinida.
                 </h2>
@@ -142,12 +146,16 @@
                 </button>
             </div>
             
-            <!-- Hero Visual -->
-            <div class="mt-16 relative h-[400px] md:h-[500px] w-full rounded-3xl overflow-hidden bg-ios-card animate-fade-in" style="animation-delay: 0.2s;">
-                <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-black opacity-50"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-ios-purple opacity-20 blur-[100px] rounded-full"></div>
+            <!-- Hero Visual (Video) -->
+            <div class="mt-16 relative h-[400px] md:h-[500px] w-full rounded-3xl overflow-hidden bg-ios-card animate-fade-in shadow-2xl border border-white/5" style="animation-delay: 0.2s;">
+                <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+                    <source src="https://i.imgur.com/hfHisyM.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+                <div class="absolute inset-0 bg-black/30"></div>
+                
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-8xl md:text-9xl opacity-10 font-bold tracking-tighter text-white">BELLE</span>
+                    <span class="text-8xl md:text-9xl opacity-20 font-bold tracking-tighter text-white mix-blend-overlay select-none animate-subtle-zoom">BELLE</span>
                 </div>
             </div>
         </section>
@@ -184,7 +192,7 @@
             <div class="max-w-[980px] mx-auto px-5 flex flex-col items-center">
                 
                 <!-- Instagram Icon -->
-                <a href="https://instagram.com" target="_blank" class="group flex flex-col items-center gap-3 text-gray-500 hover:text-white transition-colors duration-300 mb-10">
+                <a href="https://instagram.com/nqsecrets" target="_blank" class="group flex flex-col items-center gap-3 text-gray-500 hover:text-white transition-colors duration-300 mb-10">
                     <div class="p-4 rounded-3xl bg-white/5 group-hover:bg-white/10 border border-white/5 group-hover:border-white/10 transition-all duration-300 scale-100 group-hover:scale-105 shadow-sm">
                         <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -192,12 +200,12 @@
                             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                         </svg>
                     </div>
-                    <span class="text-xs font-medium tracking-wide uppercase text-gray-600 group-hover:text-gray-400 transition-colors">@bellelingerie</span>
+                    <span class="text-xs font-medium tracking-wide uppercase text-gray-600 group-hover:text-gray-400 transition-colors">@nqsecrets</span>
                 </a>
                 
                 <div class="w-full max-w-sm border-t border-white/5 pt-8 flex justify-between items-center">
                     <div class="text-left">
-                        <p class="text-[11px] text-gray-600">Copyright © 2024 Belle Lingerie.</p>
+                        <p class="text-[11px] text-gray-600">Copyright © 2025 Belle Lingerie.</p>
                         <p class="text-[11px] text-gray-700 mt-1">Todos os direitos reservados.</p>
                     </div>
                     
@@ -300,6 +308,7 @@
                         <button onclick="switchAdminTab('products')" class="w-full text-left px-4 py-2 rounded-lg text-white hover:bg-white/5 transition-colors font-medium bg-white/10" id="tab-btn-products">Produtos</button>
                         <button onclick="switchAdminTab('categories')" class="w-full text-left px-4 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors font-medium" id="tab-btn-categories">Categorias</button>
                         <button onclick="switchAdminTab('coupons')" class="w-full text-left px-4 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors font-medium" id="tab-btn-coupons">Cupons</button>
+                        <button onclick="switchAdminTab('settings')" class="w-full text-left px-4 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors font-medium" id="tab-btn-settings">Configurações</button>
                     </aside>
                     
                     <!-- Content -->
@@ -309,6 +318,7 @@
                             <button onclick="switchAdminTab('products')" class="px-4 py-2 rounded-full bg-ios-blue text-white text-sm whitespace-nowrap">Produtos</button>
                             <button onclick="switchAdminTab('categories')" class="px-4 py-2 rounded-full bg-white/10 text-white text-sm whitespace-nowrap">Categorias</button>
                             <button onclick="switchAdminTab('coupons')" class="px-4 py-2 rounded-full bg-white/10 text-white text-sm whitespace-nowrap">Cupons</button>
+                            <button onclick="switchAdminTab('settings')" class="px-4 py-2 rounded-full bg-white/10 text-white text-sm whitespace-nowrap">Configurações</button>
                         </div>
 
                         <!-- Products Tab -->
@@ -340,6 +350,19 @@
                                 <button onclick="addCoupon()" class="bg-ios-blue px-4 py-2 rounded-lg text-white font-bold">Criar Cupom</button>
                             </div>
                             <div id="admin-coupons-list" class="space-y-2"></div>
+                        </div>
+
+                        <!-- Settings Tab (New) -->
+                        <div id="admin-tab-settings" class="hidden space-y-6">
+                            <h3 class="text-2xl font-bold">Configurações da Loja</h3>
+                            <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+                                <label class="block text-sm font-bold text-gray-400 mb-3">Nome da Coleção (Hero Section)</label>
+                                <div class="flex gap-3">
+                                    <input type="text" id="setting-collection-title" class="bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white flex-1 focus:border-ios-blue outline-none" placeholder="Ex: Nova Coleção">
+                                    <button onclick="saveSettings()" class="bg-ios-blue px-6 py-2 rounded-xl text-white font-bold hover:bg-blue-600 transition-colors">Salvar</button>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2">Altera o texto pequeno roxo acima do título principal.</p>
+                            </div>
                         </div>
                     </main>
                 </div>
@@ -410,6 +433,10 @@
 
     <script>
         // --- Data Definitions ---
+        let siteConfig = {
+            collectionTitle: "Nova Coleção"
+        };
+
         let products = [
             { id: 1, name: "Conjunto Renda Noir", price: 189.90, promoPrice: 0, category: "conjuntos", colors: ["Preto", "Vinho"], sizes: ["P", "M", "G", "GG"], icon: "🖤", description: "Sofisticação em cada detalhe. Renda francesa premium.", visible: true, isPromotion: false },
             { id: 2, name: "Conjunto Midnight", price: 129.90, promoPrice: 0, category: "conjuntos", colors: ["Azul", "Preto"], sizes: ["P", "M", "G"], icon: "🌑", description: "Toque aveludado para conforto absoluto.", visible: true, isPromotion: false },
@@ -836,12 +863,36 @@
         }
 
         function switchAdminTab(tab) {
-            ['products', 'categories', 'coupons'].forEach(t => {
+            ['products', 'categories', 'coupons', 'settings'].forEach(t => {
                 document.getElementById(`admin-tab-${t}`).classList.add('hidden');
             });
             document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
             if(tab === 'categories') renderAdminCategories();
             if(tab === 'coupons') renderAdminCoupons();
+            if(tab === 'settings') {
+                document.getElementById('setting-collection-title').value = siteConfig.collectionTitle;
+            }
+        }
+
+        function saveSettings() {
+            const val = document.getElementById('setting-collection-title').value;
+            if(!val.trim()) {
+                alert("O título da coleção não pode estar vazio!");
+                return;
+            }
+            
+            siteConfig.collectionTitle = val;
+            const titleEl = document.getElementById('hero-collection-title');
+            
+            // Atualiza o texto
+            titleEl.textContent = val;
+            
+            // Reinicia a animação (Truque de Reflow)
+            titleEl.classList.remove('animate-fade-in');
+            void titleEl.offsetWidth; // Força o navegador a recalcular o layout (Reflow)
+            titleEl.classList.add('animate-fade-in');
+            
+            alert("Configuração salva com sucesso!");
         }
 
         // Admin Products
@@ -1218,6 +1269,7 @@
         }
 
         // Init
+        document.getElementById('hero-collection-title').textContent = siteConfig.collectionTitle;
         renderCategories();
         renderProducts();
     </script>
